@@ -1,4 +1,4 @@
-package six.six.keycloak.authenticator;
+package com.t1t.keycloak.authenticator;
 
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.*;

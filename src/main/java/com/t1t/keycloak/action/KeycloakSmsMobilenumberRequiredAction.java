@@ -40,7 +40,7 @@ public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProv
             context.ignore();
         } else {
             // Mobile number is not configured or is invalid
-            Response challenge = context.form().createForm("sms-validation-mobile-number.ftl");
+            Response challenge = context.form().createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         }
     }
@@ -63,13 +63,13 @@ public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProv
             logger.debug("Supplied mobile number values do not match...");
             Response challenge = context.form()
                     .setError("Entered mobile numbers do not match.")
-                    .createForm("sms-validation-mobile-number.ftl");
+                    .createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         } else {
             logger.debug("Either one of two fields wasnt complete, or the first contains an invalid number...");
             Response challenge = context.form()
                     .setError("Please enter a valid UK telephone number.")
-                    .createForm("sms-validation-mobile-number.ftl");
+                    .createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         }
     }

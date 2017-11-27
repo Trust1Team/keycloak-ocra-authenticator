@@ -60,19 +60,19 @@ public class KeycloakSmsAuthenticator implements Authenticator {
 
             storeSMSCode(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
             if (KeycloakSmsAuthenticatorUtil.sendSmsCode(mobileNumber, code, context.getAuthenticatorConfig())) {
-                Response challenge = context.form().createForm("sms-validation.ftl");
+                Response challenge = context.form().createForm("ocra-validation.ftl");
                 context.challenge(challenge);
             } else {
                 Response challenge = context.form()
                         .setError("SMS could not be sent.")
-                        .createForm("sms-validation-error.ftl");
+                        .createForm("ocra-validation-error.ftl");
                 context.failureChallenge(AuthenticationFlowError.INTERNAL_ERROR, challenge);
             }
         } else {
             // The mobile number is NOT configured --> complain
             Response challenge = context.form()
                     .setError("Missing mobile number")
-                    .createForm("sms-validation-error.ftl");
+                    .createForm("ocra-validation-error.ftl");
             context.failureChallenge(AuthenticationFlowError.CLIENT_CREDENTIALS_SETUP_REQUIRED, challenge);
         }
     }
@@ -86,7 +86,7 @@ public class KeycloakSmsAuthenticator implements Authenticator {
             case EXPIRED:
                 challenge = context.form()
                         .setError("code is expired")
-                        .createForm("sms-validation.ftl");
+                        .createForm("ocra-validation.ftl");
                 context.failureChallenge(AuthenticationFlowError.EXPIRED_CODE, challenge);
                 break;
 
@@ -98,7 +98,7 @@ public class KeycloakSmsAuthenticator implements Authenticator {
                 } else if (context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {
                     challenge = context.form()
                             .setError("Invalid code specified, please enter it again")
-                            .createForm("sms-validation.ftl");
+                            .createForm("ocra-validation.ftl");
                     context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
                 } else {
                     // Something strange happened

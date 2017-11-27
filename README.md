@@ -1,32 +1,32 @@
 # keycloak-ocra-authenticator
 [![][t1t-logo]][Trust1Connector-url]
 
-To install the SMS Authenticator one has to:
+To install the OCRA Authenticator one has to:
 
 * Add the jar to the Keycloak server:
-  * `$ cp target/keycloak-sms-authenticator-sns-*.jar _KEYCLOAK_HOME_/providers/`
+  * `$ cp target/keycloak-ocra-authenticator-*.jar _KEYCLOAK_HOME_/providers/`
 
 * Add three templates to the Keycloak server:
-  * `$ cp templates/sms-validation.ftl _KEYCLOAK_HOME_/themes/base/login/`
-  * `$ cp templates/sms-validation-error.ftl _KEYCLOAK_HOME_/themes/base/login/`
-  * `$ cp templates/sms-validation-mobile-number.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation-error.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation-mobile-number.ftl _KEYCLOAK_HOME_/themes/base/login/`
 
 
-Configure your REALM to use the SMS Authentication.
+Configure your REALM to use the OCRA Authentication.
 First create a new REALM (or select a previously created REALM).
 
 Under Authentication > Flows:
-* Copy 'Browse' flow to 'Browser with SMS' flow
-* Click on 'Actions > Add execution on the 'Browser with SMS Forms' line and add the 'SMS Authentication'
-* Set 'SMS Authentication' to 'REQUIRED' or 'ALTERNATIVE'
-* To configure the SMS Authenticator, click on Actions  Config and fill in the attributes.
+* Copy 'Browse' flow to 'Browser with OCRA' flow
+* Click on 'Actions > Add execution on the 'Browser with OCRA Forms' line and add the 'OCRA Authentication'
+* Set 'OCRA Authentication' to 'REQUIRED' or 'ALTERNATIVE'
+* To configure the OCRA Authenticator, click on Actions  Config and fill in the attributes.
 
 Under Authentication > Bindings:
-* Select 'Browser with SMS' as the 'Browser Flow' for the REALM.
+* Select 'Browser with OCRA' as the 'Browser Flow' for the REALM.
 
 Under Authentication > Required Actions:
-* Click on Register and select 'SMS Authentication' to add the Required Action to the REALM.
-* Make sure that for the 'SMS Authentication' both the 'Enabled' and 'Default Action' check boxes are checked.
+* Click on Register and select 'OCRA Authentication' to add the Required Action to the REALM.
+* Make sure that for the 'OCRA Authentication' both the 'Enabled' and 'Default Action' check boxes are checked.
 * Click on Register and select 'Mobile Number' to add the Required Action to the REALM.
 * Make sure that for the 'Mobile Number' both the 'Enabled' and 'Default Action' check boxes are checked.
 

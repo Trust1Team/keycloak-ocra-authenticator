@@ -1,4 +1,4 @@
-package six.six.keycloak.requiredaction;
+package com.t1t.keycloak.action;
 
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.*;

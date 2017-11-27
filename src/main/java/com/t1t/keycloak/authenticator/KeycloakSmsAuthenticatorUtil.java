@@ -1,14 +1,9 @@
-package six.six.keycloak.authenticator;
+package com.t1t.keycloak.authenticator;
 
-import com.amazonaws.services.sns.model.PublishResult;
+
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
-import six.six.aws.snsclient.SnsNotificationService;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Random;
 
@@ -91,7 +86,7 @@ public class KeycloakSmsAuthenticatorUtil {
 
         String smsText = createMessage(code, mobileNumber, config);
         try {
-            PublishResult send_result = new SnsNotificationService().send(setDefaultCountryCodeIfZero(mobileNumber), smsText, smsUsr, smsPwd);
+            //TODO: send message using T1G
             return true;
        } catch(Exception e) {
             //Just like pokemon

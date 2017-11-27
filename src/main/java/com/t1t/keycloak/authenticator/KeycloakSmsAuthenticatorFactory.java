@@ -1,4 +1,4 @@
-package six.six.keycloak.authenticator;
+package com.t1t.keycloak.authenticator;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
@@ -10,7 +10,6 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
-import javax.ws.rs.HttpMethod;
 import java.util.ArrayList;
 import java.util.List;
 

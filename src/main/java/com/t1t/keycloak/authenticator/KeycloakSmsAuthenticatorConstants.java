@@ -1,4 +1,4 @@
-package six.six.keycloak.authenticator;
+package com.t1t.keycloak.authenticator;
 
 /**
  * Created by joris on 18/11/2016.

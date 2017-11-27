@@ -1,4 +1,4 @@
-# keycloak-sms-authenticator-sns
+# keycloak-ocra-authenticator
 
 To install the SMS Authenticator one has to:
 

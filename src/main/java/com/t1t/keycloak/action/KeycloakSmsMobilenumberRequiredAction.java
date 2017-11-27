@@ -1,4 +1,4 @@
-package six.six.keycloak.requiredaction;
+package com.t1t.keycloak.action;
 
 import org.jboss.logging.Logger;
 import org.keycloak.authentication.RequiredActionContext;
@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static six.six.keycloak.authenticator.KeycloakSmsAuthenticatorUtil.validateTelephoneNumber;
+import static com.t1t.keycloak.authenticator.KeycloakSmsAuthenticatorUtil.validateTelephoneNumber;
 
 /**
  * Created by nickpack on 15/08/2017.

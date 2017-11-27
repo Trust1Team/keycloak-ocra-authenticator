@@ -1,4 +1,4 @@
-package six.six.keycloak.requiredaction;
+package com.t1t.keycloak.action;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;

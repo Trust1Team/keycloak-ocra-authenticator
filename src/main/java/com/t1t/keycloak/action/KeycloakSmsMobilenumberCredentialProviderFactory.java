@@ -1,4 +1,4 @@
-package six.six.keycloak.requiredaction;
+package com.t1t.keycloak.action;
 
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.CredentialProviderFactory;

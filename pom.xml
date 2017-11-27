@@ -2,17 +2,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <name>keycloak-ocra-auth</name>
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>six.six</groupId>
-    <artifactId>keycloak-sms-authenticator-sns</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.t1t.keycloak</groupId>
+    <artifactId>ocra-auth</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <organization>
+        <name>Trust1Team</name>
+    </organization>
+    <url>http://www.trust1team.com</url>
+
+    <developers>
+        <developer>
+            <name>Michallis Pashidis</name>
+            <email>michallis@trust1team.com</email>
+            <organizationUrl>http://trust1team.com</organizationUrl>
+            <organization>Trust1Team</organization>
+            <timezone>+1</timezone>
+            <properties>
+                <skype>michallis.pashidis</skype>
+            </properties>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin>3.5</maven.compiler.plugin>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
     </properties>
     <build>
         <plugins>
@@ -79,10 +107,25 @@
             <version>4.5</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sns</artifactId>
-            <version>1.11.173</version>
-        </dependency>
     </dependencies>
+
+    <!--Repositories -->
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>https://repo.t1t.be/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <!-- repository to deploy to JAVA -->
+    <distributionManagement>
+        <repository>
+            <id>Releases</id>
+            <url>https://repo.t1t.be/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>Snapshots</id>
+            <url>https://repo.t1t.be/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

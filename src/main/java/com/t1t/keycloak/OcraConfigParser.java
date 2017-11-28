@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 /**
  * Created by michallispashidis on 31/10/2017.
- * Reads a predef file in /usr/local/ocra/ocra.conf to retrieve:
+ * Reads a predef file in /opt/ocra/ocra.conf to retrieve:
  * <ul>
  *     <li>OCRA seed</li>
  *     <li>OCRA algorithm</li>
@@ -26,7 +26,7 @@ public class OcraConfigParser implements Serializable {
     private static String URI_OCRA_API = "keycloak-ocra.ocra-api-uri";
     private static String URI_SMS_API = "keycloak-ocra.sms-api-uri";
 
-    private static Path ocraConfigPath = Paths.get("/usr/local/ocra/ocra.conf");
+    private static Path ocraConfigPath = Paths.get("/opt/ocra/ocra.conf");
     private OcraConfig ocraConfig;
 
     public OcraConfigParser() throws FileNotFoundException {

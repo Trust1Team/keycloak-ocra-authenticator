@@ -1,6 +1,7 @@
 package com.t1t.keycloak.authenticator;
 
 
+import com.t1t.keycloak.client.sms.model.SmsService;
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
@@ -86,7 +87,7 @@ public class KeycloakOcraAuthenticatorUtil {
 
         String smsText = createMessage(code, mobileNumber, config);
         try {
-            //TODO: send message using T1G
+            (new SmsService()).sendSms(mobileNumber,code);
             return true;
        } catch(Exception e) {
             //Just like pokemon
@@ -107,6 +108,7 @@ public class KeycloakOcraAuthenticatorUtil {
     }
 
     public static boolean validateTelephoneNumber(String telephoneNumber) {
-        return telephoneNumber.matches("^(?:(?:\\(?(?:0(?:0|11)\\)?[\\s-]?\\(?|\\+)44\\)?[\\s-]?(?:\\(?0\\)?[\\s-]?)?)|(?:\\(?0))(?:(?:\\d{5}\\)?[\\s-]?\\d{4,5})|(?:\\d{4}\\)?[\\s-]?(?:\\d{5}|\\d{3}[\\s-]?\\d{3}))|(?:\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{3,4})|(?:\\d{2}\\)?[\\s-]?\\d{4}[\\s-]?\\d{4}))(?:[\\s-]?(?:x|ext\\.?|\\#)\\d{3,4})?$");
+        return true;
+        //return telephoneNumber.matches("^(?:(?:\\(?(?:0(?:0|11)\\)?[\\s-]?\\(?|\\+)44\\)?[\\s-]?(?:\\(?0\\)?[\\s-]?)?)|(?:\\(?0))(?:(?:\\d{5}\\)?[\\s-]?\\d{4,5})|(?:\\d{4}\\)?[\\s-]?(?:\\d{5}|\\d{3}[\\s-]?\\d{3}))|(?:\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{3,4})|(?:\\d{2}\\)?[\\s-]?\\d{4}[\\s-]?\\d{4}))(?:[\\s-]?(?:x|ext\\.?|\\#)\\d{3,4})?$");
     }
 }

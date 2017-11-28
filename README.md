@@ -7,6 +7,9 @@ To install the OCRA Authenticator one has to:
   * `$ mkdir /usr/local/ocra`
   * `$ touch ocra.conf`
   * `keycloak-ocra {
+       apikey: "<your-api-key>",
+       ocra-api-uri: "https://apim.t1t.be/trust1team/ocra-api/v1",
+       sms-api-uri: "https://apim.t1t.be/trust1team/sms-api/v1",
        ocra: {
          seed: "<ora_seed>",
          algorithm: "<ocra_algo>",
@@ -40,6 +43,14 @@ Under Authentication > Required Actions:
 * Click on Register and select 'Mobile Number' to add the Required Action to the REALM.
 * Make sure that for the 'Mobile Number' both the 'Enabled' and 'Default Action' check boxes are checked.
 
+# Additional tips
+Run a docker jboss/keycloak:
+
+`docker run --name keycloak -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=test -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak`
+
+The jboss/keycloak is a centos:7, if you want to login as root using docker (use user ID=0) and attach your terminal (in order to deploy the ear)
+
+`$ docker exec -u 0 -it keycloak bash`
 
 [Trust1Team-url]: http://trust1team.com
 [Trust1Connector-url]: http://www.trust1connector.com

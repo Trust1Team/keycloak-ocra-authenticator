@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "sms-authentication";
+    public static final String PROVIDER_ID = "ocra-authentication";
 
     private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorFactory.class);
     private static final KeycloakOcraAuthenticator SINGLETON = new KeycloakOcraAuthenticator();
@@ -107,7 +107,7 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
     }
 
     public String getDisplayType() {
-        String result = "SMS Authentication";
+        String result = "OCRA Authentication";
         logger.debug("getDisplayType called ... returning " + result);
         return result;
     }

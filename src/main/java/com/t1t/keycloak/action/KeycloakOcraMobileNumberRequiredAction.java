@@ -14,8 +14,8 @@ import static com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorUtil.valid
 /**
  * Created by nickpack on 15/08/2017.
  */
-public class KeycloakOcraMobilenumberRequiredAction implements RequiredActionProvider {
-    private static Logger logger = Logger.getLogger(KeycloakOcraMobilenumberRequiredAction.class);
+public class KeycloakOcraMobileNumberRequiredAction implements RequiredActionProvider {
+    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredAction.class);
     public static final String PROVIDER_ID = "sms_auth_check_mobile";
 
     public void evaluateTriggers(RequiredActionContext context) {
@@ -68,7 +68,7 @@ public class KeycloakOcraMobilenumberRequiredAction implements RequiredActionPro
         } else {
             logger.debug("Either one of two fields wasnt complete, or the first contains an invalid number...");
             Response challenge = context.form()
-                    .setError("Please enter a valid UK telephone number.")
+                    .setError("Please enter a valid telephone number.")
                     .createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         }

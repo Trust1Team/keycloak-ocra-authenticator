@@ -10,9 +10,9 @@ import org.keycloak.models.KeycloakSessionFactory;
 /**
  * Created by nickpack on 15/08/2017.
  */
-public class KeycloakOcraMobilenumberRequiredActionFactory implements RequiredActionFactory {
-    private static Logger logger = Logger.getLogger(KeycloakOcraMobilenumberRequiredActionFactory.class);
-    private static final KeycloakOcraMobilenumberRequiredAction SINGLETON = new KeycloakOcraMobilenumberRequiredAction();
+public class KeycloakOcraMobileNumberRequiredActionFactory implements RequiredActionFactory {
+    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredActionFactory.class);
+    private static final KeycloakOcraMobileNumberRequiredAction SINGLETON = new KeycloakOcraMobileNumberRequiredAction();
 
     public RequiredActionProvider create(KeycloakSession session) {
         logger.debug("create called ...");
@@ -20,8 +20,8 @@ public class KeycloakOcraMobilenumberRequiredActionFactory implements RequiredAc
     }
 
     public String getId() {
-        logger.debug("getId called ... returning " + KeycloakOcraMobilenumberRequiredAction.PROVIDER_ID);
-        return KeycloakOcraMobilenumberRequiredAction.PROVIDER_ID;
+        logger.debug("getId called ... returning " + KeycloakOcraMobileNumberRequiredAction.PROVIDER_ID);
+        return KeycloakOcraMobileNumberRequiredAction.PROVIDER_ID;
     }
 
     public String getDisplayText() {

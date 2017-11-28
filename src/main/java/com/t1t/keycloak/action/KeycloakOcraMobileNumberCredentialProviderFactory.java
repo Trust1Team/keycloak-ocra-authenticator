@@ -7,7 +7,7 @@ import org.keycloak.models.KeycloakSession;
 /**
  * Created by nickpack on 15/08/2017.
  */
-public class KeycloakOcraMobilenumberCredentialProviderFactory implements CredentialProviderFactory<KeycloakOcraMobilenumberCredentialProvider> {
+public class KeycloakOcraMobileNumberCredentialProviderFactory implements CredentialProviderFactory<KeycloakOcraMobileNumberCredentialProvider> {
     @Override
     public String getId() {
         return "mobile_number";
@@ -15,7 +15,7 @@ public class KeycloakOcraMobilenumberCredentialProviderFactory implements Creden
 
     @Override
     public CredentialProvider create(KeycloakSession session) {
-        return new KeycloakOcraMobilenumberCredentialProvider(session);
+        return new KeycloakOcraMobileNumberCredentialProvider(session);
     }
 
 }

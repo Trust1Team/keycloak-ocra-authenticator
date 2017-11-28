@@ -3,6 +3,7 @@ package com.t1t.keycloak.client.ocra.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ApplicationVersionResponse {
+public class ApplicationVersionResponse implements Serializable{
     private String gatewayAppId;
     private String gatewayAppVersion;
     private Organization organization;
@@ -22,6 +23,8 @@ public class ApplicationVersionResponse {
     private Date createdOn;
     private Date updatedOn;
     private String ocraAlgorithm;
+
+    public ApplicationVersionResponse() {}
 
     public ApplicationVersionResponse(String gatewayAppId, String gatewayAppVersion, Organization organization, String name, String description, Long challengeCounter, Long validationCounter, Date createdOn, Date updatedOn, String ocraAlgorithm) {
         this.gatewayAppId = gatewayAppId;

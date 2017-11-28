@@ -1,8 +1,11 @@
 package com.t1t.keycloak.client;
 
+import com.google.gson.*;
 import com.t1t.keycloak.OcraConfig;
+import com.t1t.keycloak.OcraConfigParser;
 import com.t1t.keycloak.client.ocra.OcraClient;
 import com.t1t.keycloak.client.sms.SmsClient;
+import com.t1t.keycloak.utils.UriUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,11 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Retrofit.Builder;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.Date;
 
 /**
  * @Author Michallis Pashidis
@@ -26,7 +33,10 @@ public final class RestServiceBuilder {
     private static final Logger log = LoggerFactory.getLogger(RestServiceBuilder.class);
     /* Headers */
     private static final String APIKEY_HEADER_NAME = "apikey";
-    private RestServiceBuilder() {}
+
+    private RestServiceBuilder() {
+    }
+
     private static OcraConfig config;
 
     /**
@@ -36,11 +46,11 @@ public final class RestServiceBuilder {
      */
     public static SmsClient getSmsRestClient() throws Exception {
         initConfig();
-        return getClient(config.getUriSmsApi(), SmsClient.class, config.getApikey());
+        return getClient(UriUtils.uriFinalSlashAppender(config.getUriSmsApi()), SmsClient.class, config.getApikey());
     }
 
-    private static void initConfig() {
-        if(config==null) config = new OcraConfig();
+    private static void initConfig() throws FileNotFoundException {
+        if (config == null) config = (new OcraConfigParser()).getOcraConfig();
     }
 
     /**
@@ -49,8 +59,9 @@ public final class RestServiceBuilder {
      * @return
      * @throws Exception
      */
-    public static OcraClient getOcraRestClient() throws Exception{
-        return getClient(config.getUriOcraApi(), OcraClient.class, config.getApikey());
+    public static OcraClient getOcraRestClient() throws Exception {
+        initConfig();
+        return getClient(UriUtils.uriFinalSlashAppender(config.getUriOcraApi()), OcraClient.class, config.getApikey());
     }
 
 
@@ -64,9 +75,17 @@ public final class RestServiceBuilder {
      * @return
      */
     private static <T> T getClient(String uri, Class<T> iFace, String apikey) throws Exception {
-        try { Builder retrofitBuilder = new Builder()
+        GsonBuilder builder = new GsonBuilder();
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+        try {
+            Builder retrofitBuilder = new Builder()
                     .client(gethttpClient(apikey))
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(builder.create()))
                     .baseUrl(uri);
             return retrofitBuilder.build().create(iFace);
         } catch (Exception ex) {
@@ -88,7 +107,6 @@ public final class RestServiceBuilder {
      */
     private static OkHttpClient gethttpClient(final String apikey) throws NoSuchAlgorithmException, CertificateException, KeyManagementException, KeyStoreException, IOException {
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-        okHttpBuilder.sslSocketFactory(new TLSSocketFactory());
         final boolean apikeyPresent = StringUtils.isNotBlank(apikey);
         if (apikeyPresent) {
             okHttpBuilder.addInterceptor(new Interceptor() {
@@ -103,5 +121,9 @@ public final class RestServiceBuilder {
             });
         }
         return okHttpBuilder.build();
+    }
+
+    public static OcraConfig getConfig() {
+        return config;
     }
 }

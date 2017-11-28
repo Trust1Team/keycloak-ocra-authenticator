@@ -19,6 +19,8 @@ public class Organization implements Serializable {
     private Date createdOn;
     private Date updatedOn;
 
+    public Organization() {}
+
     public Organization(String gatewayId, String name, String description, Date createdOn, Date updatedOn) {
         this.gatewayId = gatewayId;
         this.name = name;
@@ -30,39 +32,30 @@ public class Organization implements Serializable {
     public String getGatewayId() {
         return gatewayId;
     }
-
     public void setGatewayId(String gatewayId) {
         this.gatewayId = gatewayId;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public Date getCreatedOn() {
         return createdOn;
     }
-
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
     }
-
     public Date getUpdatedOn() {
         return updatedOn;
     }
-
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
     }

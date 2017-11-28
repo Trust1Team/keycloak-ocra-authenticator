@@ -3,6 +3,16 @@
 
 To install the OCRA Authenticator one has to:
 
+* Add ocra config
+  * `$ mkdir /usr/local/ocra`
+  * `$ touch ocra.conf`
+  * `keycloak-ocra {
+       ocra: {
+         seed: "<ora_seed>",
+         algorithm: "<ocra_algo>",
+       }
+     }`
+
 * Add the jar to the Keycloak server:
   * `$ cp target/keycloak-ocra-authenticator-*.jar _KEYCLOAK_HOME_/providers/`
 

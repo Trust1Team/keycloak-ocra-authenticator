@@ -10,9 +10,9 @@ import java.util.Random;
 /**
  * Created by joris on 18/11/2016.
  */
-public class KeycloakSmsAuthenticatorUtil {
+public class KeycloakOcraAuthenticatorUtil {
 
-    private static Logger logger = Logger.getLogger(KeycloakSmsAuthenticatorUtil.class);
+    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorUtil.class);
 
     public static String getAttributeValue(UserModel user, String attributeName) {
         String result = null;
@@ -62,7 +62,7 @@ public class KeycloakSmsAuthenticatorUtil {
     }
 
     public static String createMessage(String code, String mobileNumber, AuthenticatorConfigModel config) {
-        String text = KeycloakSmsAuthenticatorUtil.getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_TEXT);
+        String text = KeycloakOcraAuthenticatorUtil.getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         text = text.replaceAll("%sms-code%", code);
         text = text.replaceAll("%phonenumber%", mobileNumber);
 
@@ -79,10 +79,10 @@ public class KeycloakSmsAuthenticatorUtil {
 
     static boolean sendSmsCode(String mobileNumber, String code, AuthenticatorConfigModel config) {
         // Send an SMS
-        KeycloakSmsAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
+        KeycloakOcraAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
 
-        String smsUsr = getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTTOKEN);
-        String smsPwd = getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTSECRET);
+        String smsUsr = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTTOKEN);
+        String smsPwd = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTSECRET);
 
         String smsText = createMessage(code, mobileNumber, config);
         try {
@@ -99,6 +99,7 @@ public class KeycloakSmsAuthenticatorUtil {
             throw new RuntimeException("Number of digits must be bigger than 0");
         }
 
+        //TODO ocra
         double maxValue = Math.pow(10.0, nrOfDigits); // 10 ^ nrOfDigits;
         Random r = new Random();
         long code = (long) (r.nextFloat() * maxValue);

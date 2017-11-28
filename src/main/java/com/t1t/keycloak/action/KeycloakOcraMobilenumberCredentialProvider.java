@@ -17,13 +17,13 @@ import java.util.Set;
 /**
  * Created by nickpack on 15/08/2017.
  */
-public class KeycloakSmsMobilenumberCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
+public class KeycloakOcraMobilenumberCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
     public static final String MOBILE_NUMBER = "mobile_number";
-    public static final String CACHE_KEY = KeycloakSmsMobilenumberCredentialProvider.class.getName() + "." + MOBILE_NUMBER;
+    public static final String CACHE_KEY = KeycloakOcraMobilenumberCredentialProvider.class.getName() + "." + MOBILE_NUMBER;
 
     protected KeycloakSession session;
 
-    public KeycloakSmsMobilenumberCredentialProvider(KeycloakSession session) {
+    public KeycloakOcraMobilenumberCredentialProvider(KeycloakSession session) {
         this.session = session;
     }
 

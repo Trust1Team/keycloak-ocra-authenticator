@@ -20,9 +20,9 @@ import java.util.List;
 /**
  * Created by joris on 11/11/2016.
  */
-public class KeycloakSmsAuthenticator implements Authenticator {
+public class KeycloakOcraAuthenticator implements Authenticator {
 
-    private static Logger logger = Logger.getLogger(KeycloakSmsAuthenticator.class);
+    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticator.class);
 
     public static final String CREDENTIAL_TYPE = "sms_validation";
 
@@ -48,18 +48,18 @@ public class KeycloakSmsAuthenticator implements Authenticator {
 
         if (mobileNumber != null) {
             // The mobile number is configured --> send an SMS
-            long nrOfDigits = KeycloakSmsAuthenticatorUtil.getConfigLong(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_LENGTH, 8L);
+            long nrOfDigits = KeycloakOcraAuthenticatorUtil.getConfigLong(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_LENGTH, 8L);
             logger.debug("Using nrOfDigits " + nrOfDigits);
 
 
-            long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 10 * 60L); // 10 minutes in s
+            long ttl = KeycloakOcraAuthenticatorUtil.getConfigLong(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_TTL, 10 * 60L); // 10 minutes in s
 
             logger.debug("Using ttl " + ttl + " (s)");
 
-            String code = KeycloakSmsAuthenticatorUtil.getSmsCode(nrOfDigits);
+            String code = KeycloakOcraAuthenticatorUtil.getSmsCode(nrOfDigits);
 
             storeSMSCode(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
-            if (KeycloakSmsAuthenticatorUtil.sendSmsCode(mobileNumber, code, context.getAuthenticatorConfig())) {
+            if (KeycloakOcraAuthenticatorUtil.sendSmsCode(mobileNumber, code, context.getAuthenticatorConfig())) {
                 Response challenge = context.form().createForm("ocra-validation.ftl");
                 context.challenge(challenge);
             } else {
@@ -117,12 +117,12 @@ public class KeycloakSmsAuthenticator implements Authenticator {
     // When the code is validated on another node (in a clustered environment) the other nodes have access to it's values too.
     private void storeSMSCode(AuthenticationFlowContext context, String code, Long expiringAt) {
         UserCredentialModel credentials = new UserCredentialModel();
-        credentials.setType(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+        credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
         credentials.setValue(code);
 
         context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
 
-        credentials.setType(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_EXP_TIME);
+        credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_EXP_TIME);
         credentials.setValue((expiringAt).toString());
         context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
     }
@@ -133,11 +133,11 @@ public class KeycloakSmsAuthenticator implements Authenticator {
 
         logger.debug("validateCode called ... ");
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
-        String enteredCode = formData.getFirst(KeycloakSmsAuthenticatorConstants.ANSW_SMS_CODE);
+        String enteredCode = formData.getFirst(KeycloakOcraAuthenticatorConstants.ANSW_OCRA_CODE);
         KeycloakSession session = context.getSession();
 
-        List codeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
-        /*List timeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_EXP_TIME);*/
+        List codeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
+        /*List timeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_EXP_TIME);*/
 
         CredentialModel expectedCode = (CredentialModel) codeCreds.get(0);
         /*CredentialModel expTimeString = (CredentialModel) timeCreds.get(0);*/

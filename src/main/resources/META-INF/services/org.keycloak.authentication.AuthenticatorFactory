@@ -1,1 +1,1 @@
-com.t1t.keycloak.authenticator.KeycloakSmsAuthenticatorFactory
+com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorFactory

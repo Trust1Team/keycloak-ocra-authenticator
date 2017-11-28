@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * Created by joris on 11/11/2016.
  */
-public class KeycloakSmsAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
+public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
     public static final String PROVIDER_ID = "sms-authentication";
 
-    private static Logger logger = Logger.getLogger(KeycloakSmsAuthenticatorFactory.class);
-    private static final KeycloakSmsAuthenticator SINGLETON = new KeycloakSmsAuthenticator();
+    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorFactory.class);
+    private static final KeycloakOcraAuthenticator SINGLETON = new KeycloakOcraAuthenticator();
 
 
     public static final AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
@@ -37,14 +37,14 @@ public class KeycloakSmsAuthenticatorFactory implements AuthenticatorFactory, Co
 
         // SMS Code
         property = new ProviderConfigProperty();
-        property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL);
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_TTL);
         property.setLabel("SMS code time to live");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("The validity of the sent code in seconds.");
         configProperties.add(property);
 
         property = new ProviderConfigProperty();
-        property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_LENGTH);
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_LENGTH);
         property.setLabel("Length of the SMS code");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("Length of the SMS code.");
@@ -52,7 +52,7 @@ public class KeycloakSmsAuthenticatorFactory implements AuthenticatorFactory, Co
 
         // SMS Text
         property = new ProviderConfigProperty();
-        property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_TEXT);
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         property.setLabel("Template of text to send to the user");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("Use %sms-code% as placeholder for the generated SMS code. Use %user% and %password% as placeholder when 'In message' authentication is used.");
@@ -61,14 +61,14 @@ public class KeycloakSmsAuthenticatorFactory implements AuthenticatorFactory, Co
         // SMS Gateway
 
         property = new ProviderConfigProperty();
-        property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTTOKEN);
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTTOKEN);
         property.setLabel("AWS Client Token");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("AWS Client Token.");
         configProperties.add(property);
 
         property = new ProviderConfigProperty();
-        property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTSECRET);
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTSECRET);
         property.setLabel("AWS Client Secret");
         property.setHelpText("AWS Client Secret");
         property.setType(ProviderConfigProperty.STRING_TYPE);

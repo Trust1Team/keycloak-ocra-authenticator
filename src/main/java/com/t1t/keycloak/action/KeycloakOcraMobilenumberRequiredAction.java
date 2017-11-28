@@ -9,13 +9,13 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.t1t.keycloak.authenticator.KeycloakSmsAuthenticatorUtil.validateTelephoneNumber;
+import static com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorUtil.validateTelephoneNumber;
 
 /**
  * Created by nickpack on 15/08/2017.
  */
-public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProvider {
-    private static Logger logger = Logger.getLogger(KeycloakSmsMobilenumberRequiredAction.class);
+public class KeycloakOcraMobilenumberRequiredAction implements RequiredActionProvider {
+    private static Logger logger = Logger.getLogger(KeycloakOcraMobilenumberRequiredAction.class);
     public static final String PROVIDER_ID = "sms_auth_check_mobile";
 
     public void evaluateTriggers(RequiredActionContext context) {

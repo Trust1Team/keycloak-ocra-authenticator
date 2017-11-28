@@ -2,30 +2,26 @@ package com.t1t.keycloak.client.ocra.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ * @Author Michallis Pashidis
+ * @Since 2017
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OcraChallengeResponse implements Serializable {
-    @SerializedName("id")
-    @Expose
+public class ChallengeResponse implements Serializable {
     private Long id;
-    @SerializedName("rs")
-    @Expose
     private String rs;
-    @SerializedName("qs")
-    @Expose
     private String qs;
 
-    public Long getId() {
-        return id;
-    }
+    public ChallengeResponse() {}
 
-    public void setId(Long id) {
+    public ChallengeResponse(Long id, String rs, String qs) {
         this.id = id;
+        this.rs = rs;
+        this.qs = qs;
     }
 
     public String getRs() {
@@ -44,9 +40,13 @@ public class OcraChallengeResponse implements Serializable {
         this.qs = qs;
     }
 
+    public Long getId() {return id;}
+
+    public void setId(Long id) {this.id = id;}
+
     @Override
     public String toString() {
-        return "OcraChallengeResponse{" +
+        return "ChallengeResponse{" +
                 "id=" + id +
                 ", rs='" + rs + '\'' +
                 ", qs='" + qs + '\'' +

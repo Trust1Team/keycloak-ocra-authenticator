@@ -1,7 +1,7 @@
 package com.t1t.keycloak.client.ocra;
 
-import com.t1t.keycloak.client.ocra.model.OcraChallengeResponse;
-import com.t1t.keycloak.client.ocra.model.OcraValidationResponse;
+import com.t1t.keycloak.client.ocra.model.ChallengeResponse;
+import com.t1t.keycloak.client.ocra.model.ValidationResponse;
 import retrofit2.Call;
 import retrofit2.http.POST;
 
@@ -12,8 +12,8 @@ import retrofit2.http.POST;
 public interface OcraClient {
 
     @POST("ocra/challenge")
-    Call<OcraChallengeResponse> getChallenge();
+    Call<ChallengeResponse> getChallenge();
 
     @POST("ocra/validate")
-    Call<OcraValidationResponse> validate();
+    Call<ValidationResponse> validate();
 }

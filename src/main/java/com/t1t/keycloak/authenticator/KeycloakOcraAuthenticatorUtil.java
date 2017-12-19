@@ -82,8 +82,8 @@ public class KeycloakOcraAuthenticatorUtil {
         // Send an SMS
         KeycloakOcraAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
 
-        String smsUsr = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTTOKEN);
-        String smsPwd = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTSECRET);
+        String smsUsr = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_ALGO);
+        String smsPwd = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_SEED);
 
         String smsText = createMessage(code, mobileNumber, config);
         try {

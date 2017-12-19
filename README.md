@@ -24,6 +24,7 @@ To install the OCRA Authenticator one has to:
   * `$ cp templates/ocra-validation-error.ftl _KEYCLOAK_HOME_/themes/base/login/`
   * `$ cp templates/ocra-validation-mobile-number.ftl _KEYCLOAK_HOME_/themes/base/login/`
 
+If you want to retrieve the files from a repo, you can install wget (yum install wget).
 
 Configure your REALM to use the OCRA Authentication.
 First create a new REALM (or select a previously created REALM).

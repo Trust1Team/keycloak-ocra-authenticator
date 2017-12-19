@@ -52,7 +52,7 @@ public class KeycloakOcraAuthenticator implements Authenticator {
             logger.debug("Using nrOfDigits " + nrOfDigits);
 
 
-            long ttl = KeycloakOcraAuthenticatorUtil.getConfigLong(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_TTL, 10 * 60L); // 10 minutes in s
+            long ttl = KeycloakOcraAuthenticatorUtil.getConfigLong(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_URL_OCRA_API, 10 * 60L); // 10 minutes in s
 
             logger.debug("Using ttl " + ttl + " (s)");
 

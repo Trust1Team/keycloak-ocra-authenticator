@@ -35,19 +35,26 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
     static {
         ProviderConfigProperty property;
 
-        // SMS Code
+        // API URLs
         property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_TTL);
-        property.setLabel("SMS code time to live");
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_URL_OCRA_API);
+        property.setLabel("OCRA API URL");
         property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("The validity of the sent code in seconds.");
+        property.setHelpText("The full URL and context path for the OCRA API.");
         configProperties.add(property);
 
         property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CODE_LENGTH);
-        property.setLabel("Length of the SMS code");
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_URL_SMS_API);
+        property.setLabel("SMS API URL");
         property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Length of the SMS code.");
+        property.setHelpText("The full URL and context path for the SMS API.");
+        configProperties.add(property);
+
+        property = new ProviderConfigProperty();
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_API_KEY);
+        property.setLabel("Api-key");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setHelpText("The T1G api-key after contracting the SMS API and the OCRA API.");
         configProperties.add(property);
 
         // SMS Text
@@ -55,22 +62,21 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
         property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         property.setLabel("Template of text to send to the user");
         property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Use %sms-code% as placeholder for the generated SMS code. Use %user% and %password% as placeholder when 'In message' authentication is used.");
+        property.setHelpText("Use %sms-code% as placeholder for the generated OCRA code. Use %user% and %password% as placeholder when 'In message' authentication is used.");
         configProperties.add(property);
 
-        // SMS Gateway
-
+        // OCRA Config
         property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTTOKEN);
-        property.setLabel("AWS Client Token");
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_ALGO);
+        property.setLabel("OCRA Algorithm");
         property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("AWS Client Token.");
+        property.setHelpText("OCRA Algorithm following RFC6287: for example: 'OCRA-1:HOTP-SHA256-8:QN08'");
         configProperties.add(property);
 
         property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_CLIENTSECRET);
-        property.setLabel("AWS Client Secret");
-        property.setHelpText("AWS Client Secret");
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_SEED);
+        property.setLabel("OCRA Seed");
+        property.setHelpText("OCRA Seed, shared secret between OCRA API and Keycloak");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         configProperties.add(property);
     }
@@ -103,7 +109,7 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
 
     public String getHelpText() {
         logger.debug("getHelpText called ...");
-        return "Validates an OTP sent by SMS.";
+        return "Validates an OCRA OTP sent by SMS.";
     }
 
     public String getDisplayType() {

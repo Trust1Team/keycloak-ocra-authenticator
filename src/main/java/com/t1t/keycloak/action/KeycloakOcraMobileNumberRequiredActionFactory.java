@@ -8,7 +8,8 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraMobileNumberRequiredActionFactory implements RequiredActionFactory {
     private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredActionFactory.class);

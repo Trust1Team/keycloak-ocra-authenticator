@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by joris on 18/11/2016.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraAuthenticatorUtil {
 

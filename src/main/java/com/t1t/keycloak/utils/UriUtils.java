@@ -1,8 +1,8 @@
 package com.t1t.keycloak.utils;
 
 /**
- * @author Guillaume Vandecasteele
- * @since 2017
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public final class UriUtils {
 

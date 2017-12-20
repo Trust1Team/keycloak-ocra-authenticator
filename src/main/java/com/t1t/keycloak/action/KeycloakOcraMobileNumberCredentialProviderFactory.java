@@ -5,7 +5,8 @@ import org.keycloak.credential.CredentialProviderFactory;
 import org.keycloak.models.KeycloakSession;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraMobileNumberCredentialProviderFactory implements CredentialProviderFactory<KeycloakOcraMobileNumberCredentialProvider> {
     @Override

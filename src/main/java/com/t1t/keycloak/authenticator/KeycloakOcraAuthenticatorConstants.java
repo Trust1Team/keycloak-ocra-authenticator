@@ -1,7 +1,8 @@
 package com.t1t.keycloak.authenticator;
 
 /**
- * Created by joris on 18/11/2016.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraAuthenticatorConstants {
     //T1G APIs

@@ -12,7 +12,8 @@ import java.util.List;
 import static com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorUtil.validateTelephoneNumber;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraMobileNumberRequiredAction implements RequiredActionProvider {
     private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredAction.class);

@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by nickpack on 09/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraAuthenticatorCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
     private static final String CACHE_KEY = KeycloakOcraAuthenticatorCredentialProvider.class.getName() + "." + KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE;

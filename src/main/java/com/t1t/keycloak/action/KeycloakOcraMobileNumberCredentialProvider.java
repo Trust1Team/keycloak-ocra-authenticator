@@ -1,5 +1,6 @@
 package com.t1t.keycloak.action;
 
+import com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorConstants;
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.*;
 import org.keycloak.models.KeycloakSession;
@@ -15,10 +16,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraMobileNumberCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
-    public static final String MOBILE_NUMBER = "mobile_number";
+    public static final String MOBILE_NUMBER = KeycloakOcraAuthenticatorConstants.ATTR_MOBILE;
     public static final String CACHE_KEY = KeycloakOcraMobileNumberCredentialProvider.class.getName() + "." + MOBILE_NUMBER;
 
     protected KeycloakSession session;

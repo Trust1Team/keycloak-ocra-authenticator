@@ -1,5 +1,8 @@
 package com.t1t.keycloak;
-
+/**
+ * @Author Michallis Pashidis
+ * @Since 2017
+ */
 public class OcraConfig {
     private volatile String ocraSeed;
     private volatile String ocraAlgorithm;

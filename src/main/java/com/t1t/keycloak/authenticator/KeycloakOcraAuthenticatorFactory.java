@@ -15,7 +15,8 @@ import java.util.List;
 
 
 /**
- * Created by joris on 11/11/2016.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
 public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 

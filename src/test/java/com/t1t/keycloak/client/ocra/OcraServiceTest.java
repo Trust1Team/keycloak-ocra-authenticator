@@ -8,7 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 import static org.junit.Assert.*;
-
+/**
+ * @Author Michallis Pashidis
+ * @Since 2017
+ */
 //TODO powermock
 public class OcraServiceTest {
     private static final Logger log = LoggerFactory.getLogger(OcraServiceTest.class.getName());

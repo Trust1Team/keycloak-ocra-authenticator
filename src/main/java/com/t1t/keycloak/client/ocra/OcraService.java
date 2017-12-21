@@ -17,7 +17,7 @@ public class OcraService {
         verifyAndUpdateApplicationConfig();
     }
 
-    private void verifyAndUpdateApplicationConfig() throws Exception {
+    private synchronized void verifyAndUpdateApplicationConfig() throws Exception {
         UpdateApplicationVersionRequest uavb = new UpdateApplicationVersionRequest();
         uavb.setOcraAlgorithm(RestServiceBuilder.getConfig().getOcraAlgorithm());
         uavb.setOcraSeed(RestServiceBuilder.getConfig().getOcraSeed());
@@ -25,7 +25,7 @@ public class OcraService {
         log.debug("Application: {}", avb);
     }
 
-    public ChallengeResponse getCode(String sessionId, String qc) throws Exception {
+    public synchronized ChallengeResponse getCode(String sessionId, String qc) throws Exception {
         ChallengeRequest challengeRequest = new ChallengeRequest();
         //challengeRequest.setQc();
         challengeRequest.setQc(qc);
@@ -34,7 +34,7 @@ public class OcraService {
         return challengeResponse;
     }
 
-    public ValidationResponse validate(String sessionId, String qc, ChallengeResponse challengeResponse) throws Exception {
+    public synchronized ValidationResponse validate(String sessionId, String qc, ChallengeResponse challengeResponse) throws Exception {
         ApplicationVersionResponse avb = RestExecutor.executeCall(ocraClient.getApplication());
         String qAll = challengeResponse.getQs() + qc;
         String qcHex = Convert.asHex(qAll.getBytes());

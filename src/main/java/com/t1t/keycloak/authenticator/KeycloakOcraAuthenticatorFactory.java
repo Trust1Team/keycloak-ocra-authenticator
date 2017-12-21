@@ -1,5 +1,7 @@
 package com.t1t.keycloak.authenticator;
 
+import com.t1t.keycloak.client.ocra.OcraService;
+import com.t1t.keycloak.client.sms.model.SmsService;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
@@ -23,7 +25,7 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
     public static final String PROVIDER_ID = "ocra-authentication";
 
     private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorFactory.class);
-    private static final KeycloakOcraAuthenticator SINGLETON = new KeycloakOcraAuthenticator();
+    private static KeycloakOcraAuthenticator SINGLETON;
 
 
     public static final AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
@@ -80,6 +82,20 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
         property.setHelpText("OCRA Seed, shared secret between OCRA API and Keycloak");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         configProperties.add(property);
+
+        property = new ProviderConfigProperty();
+        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TTL);
+        property.setLabel("OCRA TTL");
+        property.setHelpText("OCRA time-to-live in seconds");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        configProperties.add(property);
+
+        try {
+            SINGLETON = new KeycloakOcraAuthenticator(new OcraService(), new SmsService());
+            logger.info("Kc Ocra Authenticator instance created.");
+        } catch (Exception e) {
+            logger.error("Error upon initializing the OCRA context:" + e.getMessage());
+        }
     }
 
     public String getId() {

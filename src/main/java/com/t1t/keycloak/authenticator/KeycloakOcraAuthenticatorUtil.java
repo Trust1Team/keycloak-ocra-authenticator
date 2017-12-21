@@ -67,7 +67,6 @@ public class KeycloakOcraAuthenticatorUtil {
         String text = KeycloakOcraAuthenticatorUtil.getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         text = text.replaceAll("%sms-code%", code);
         text = text.replaceAll("%phonenumber%", mobileNumber);
-
         return text;
     }
 
@@ -79,19 +78,15 @@ public class KeycloakOcraAuthenticatorUtil {
         return mobileNumber;
     }
 
-    static boolean sendSmsCode(String mobileNumber, String code, AuthenticatorConfigModel config) {
+    static boolean sendSmsCode(SmsService smsService, String mobileNumber, String code, AuthenticatorConfigModel config) {
         // Send an SMS
         KeycloakOcraAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
-
-        String smsUsr = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_ALGO);
-        String smsPwd = getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_SEED);
-
         String smsText = createMessage(code, mobileNumber, config);
         try {
-            (new SmsService()).sendSms(mobileNumber,code);
+            smsService.sendSms(mobileNumber,smsText);
             return true;
        } catch(Exception e) {
-            //Just like pokemon
+            //is catched in calling method
             return false;
         }
     }

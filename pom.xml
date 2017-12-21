@@ -155,7 +155,7 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit-mock</artifactId>
             <version>${version.retrofit}</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>--><!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>

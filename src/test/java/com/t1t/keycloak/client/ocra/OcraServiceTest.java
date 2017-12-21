@@ -17,7 +17,7 @@ public class OcraServiceTest {
     private static final Logger log = LoggerFactory.getLogger(OcraServiceTest.class.getName());
     private RandomString randomGenerator;
 
-    @Ignore
+
     @Test
     public void testOcraService() throws Exception {
         randomGenerator = new RandomString(16, new SecureRandom(),RandomString.alphanum);

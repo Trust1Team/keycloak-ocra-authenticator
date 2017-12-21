@@ -1,35 +1,57 @@
 # keycloak-ocra-authenticator
 [![][t1t-logo]][Trust1Connector-url]
 
-To install the SMS Authenticator one has to:
+To install the OCRA Authenticator one has to:
+
+* Add ocra config
+  * `$ mkdir /usr/local/ocra`
+  * `$ touch ocra.conf`
+  * `keycloak-ocra {
+       apikey: "<your-api-key>",
+       ocra-api-uri: "https://apim.t1t.be/trust1team/ocra-api/v1",
+       sms-api-uri: "https://apim.t1t.be/trust1team/sms-api/v1",
+       ocra: {
+         seed: "<ora_seed>",
+         algorithm: "<ocra_algo>",
+       }
+     }`
 
 * Add the jar to the Keycloak server:
-  * `$ cp target/keycloak-sms-authenticator-sns-*.jar _KEYCLOAK_HOME_/providers/`
+  * `$ cp target/keycloak-ocra-authenticator-*.jar _KEYCLOAK_HOME_/providers/`
 
 * Add three templates to the Keycloak server:
-  * `$ cp templates/sms-validation.ftl _KEYCLOAK_HOME_/themes/base/login/`
-  * `$ cp templates/sms-validation-error.ftl _KEYCLOAK_HOME_/themes/base/login/`
-  * `$ cp templates/sms-validation-mobile-number.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation-error.ftl _KEYCLOAK_HOME_/themes/base/login/`
+  * `$ cp templates/ocra-validation-mobile-number.ftl _KEYCLOAK_HOME_/themes/base/login/`
 
+If you want to retrieve the files from a repo, you can install wget (yum install wget).
 
-Configure your REALM to use the SMS Authentication.
+Configure your REALM to use the OCRA Authentication.
 First create a new REALM (or select a previously created REALM).
 
 Under Authentication > Flows:
-* Copy 'Browse' flow to 'Browser with SMS' flow
-* Click on 'Actions > Add execution on the 'Browser with SMS Forms' line and add the 'SMS Authentication'
-* Set 'SMS Authentication' to 'REQUIRED' or 'ALTERNATIVE'
-* To configure the SMS Authenticator, click on Actions  Config and fill in the attributes.
+* Copy 'Browse' flow to 'Browser with OCRA' flow
+* Click on 'Actions > Add execution on the 'Browser with OCRA Forms' line and add the 'OCRA Authentication'
+* Set 'OCRA Authentication' to 'REQUIRED' or 'ALTERNATIVE'
+* To configure the OCRA Authenticator, click on Actions  Config and fill in the attributes.
 
 Under Authentication > Bindings:
-* Select 'Browser with SMS' as the 'Browser Flow' for the REALM.
+* Select 'Browser with OCRA' as the 'Browser Flow' for the REALM.
 
 Under Authentication > Required Actions:
-* Click on Register and select 'SMS Authentication' to add the Required Action to the REALM.
-* Make sure that for the 'SMS Authentication' both the 'Enabled' and 'Default Action' check boxes are checked.
+* Click on Register and select 'OCRA Authentication' to add the Required Action to the REALM.
+* Make sure that for the 'OCRA Authentication' both the 'Enabled' and 'Default Action' check boxes are checked.
 * Click on Register and select 'Mobile Number' to add the Required Action to the REALM.
 * Make sure that for the 'Mobile Number' both the 'Enabled' and 'Default Action' check boxes are checked.
 
+# Additional tips
+Run a docker jboss/keycloak:
+
+`docker run --name keycloak -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=test -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak`
+
+The jboss/keycloak is a centos:7, if you want to login as root using docker (use user ID=0) and attach your terminal (in order to deploy the ear)
+
+`$ docker exec -u 0 -it keycloak bash`
 
 [Trust1Team-url]: http://trust1team.com
 [Trust1Connector-url]: http://www.trust1connector.com

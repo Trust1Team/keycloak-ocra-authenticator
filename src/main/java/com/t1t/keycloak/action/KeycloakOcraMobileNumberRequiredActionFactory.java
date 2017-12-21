@@ -8,11 +8,12 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
-public class KeycloakSmsMobilenumberRequiredActionFactory implements RequiredActionFactory {
-    private static Logger logger = Logger.getLogger(KeycloakSmsMobilenumberRequiredActionFactory.class);
-    private static final KeycloakSmsMobilenumberRequiredAction SINGLETON = new KeycloakSmsMobilenumberRequiredAction();
+public class KeycloakOcraMobileNumberRequiredActionFactory implements RequiredActionFactory {
+    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredActionFactory.class);
+    private static final KeycloakOcraMobileNumberRequiredAction SINGLETON = new KeycloakOcraMobileNumberRequiredAction();
 
     public RequiredActionProvider create(KeycloakSession session) {
         logger.debug("create called ...");
@@ -20,8 +21,8 @@ public class KeycloakSmsMobilenumberRequiredActionFactory implements RequiredAct
     }
 
     public String getId() {
-        logger.debug("getId called ... returning " + KeycloakSmsMobilenumberRequiredAction.PROVIDER_ID);
-        return KeycloakSmsMobilenumberRequiredAction.PROVIDER_ID;
+        logger.debug("getId called ... returning " + KeycloakOcraMobileNumberRequiredAction.PROVIDER_ID);
+        return KeycloakOcraMobileNumberRequiredAction.PROVIDER_ID;
     }
 
     public String getDisplayText() {

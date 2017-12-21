@@ -15,14 +15,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by nickpack on 09/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
-public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
-    private static final String CACHE_KEY = KeycloakSmsAuthenticatorCredentialProvider.class.getName() + "." + KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE;
+public class KeycloakOcraAuthenticatorCredentialProvider implements CredentialProvider, CredentialInputValidator, CredentialInputUpdater, OnUserCache {
+    private static final String CACHE_KEY = KeycloakOcraAuthenticatorCredentialProvider.class.getName() + "." + KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE;
 
     private final KeycloakSession session;
 
-    public KeycloakSmsAuthenticatorCredentialProvider(KeycloakSession session) {
+    public KeycloakOcraAuthenticatorCredentialProvider(KeycloakSession session) {
         this.session = session;
     }
 
@@ -33,7 +34,7 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
             secret = (CredentialModel) cached.getCachedWith().get(CACHE_KEY);
 
         } else {
-            List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+            List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
             if (!creds.isEmpty()) secret = creds.get(0);
         }
         return secret;
@@ -42,13 +43,13 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
 
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-        if (!KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE.equals(input.getType())) return false;
+        if (!KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE.equals(input.getType())) return false;
         if (!(input instanceof UserCredentialModel)) return false;
         UserCredentialModel credInput = (UserCredentialModel) input;
-        List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+        List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
         if (creds.isEmpty()) {
             CredentialModel secret = new CredentialModel();
-            secret.setType(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+            secret.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
             secret.setValue(credInput.getValue());
             secret.setCreatedDate(Time.currentTimeMillis());
             session.userCredentialManager().createCredential(realm, user, secret);
@@ -62,7 +63,7 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
 
     @Override
     public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
-        if (!KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE.equals(credentialType)) return;
+        if (!KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE.equals(credentialType)) return;
         session.userCredentialManager().disableCredentialType(realm, user, credentialType);
         session.userCache().evict(realm, user);
 
@@ -70,9 +71,9 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
 
     @Override
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
-        if (!session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE).isEmpty()) {
+        if (!session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE).isEmpty()) {
             Set<String> set = new HashSet<>();
-            set.add(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+            set.add(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
             return set;
         } else {
             return Collections.<String>emptySet();
@@ -82,17 +83,17 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
 
     @Override
     public boolean supportsCredentialType(String credentialType) {
-        return KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE.equals(credentialType);
+        return KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE.equals(credentialType);
     }
 
     @Override
     public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-        return KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE.equals(credentialType) && getSecret(realm, user) != null;
+        return KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE.equals(credentialType) && getSecret(realm, user) != null;
     }
 
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
-        if (!KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE.equals(input.getType())) return false;
+        if (!KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE.equals(input.getType())) return false;
         if (!(input instanceof UserCredentialModel)) return false;
 
         String secret = getSecret(realm, user).getValue();
@@ -102,7 +103,7 @@ public class KeycloakSmsAuthenticatorCredentialProvider implements CredentialPro
 
     @Override
     public void onCache(RealmModel realm, CachedUserModel user, UserModel delegate) {
-        List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+        List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
         if (!creds.isEmpty()) {
             user.getCachedWith().put(CACHE_KEY, creds.get(0));
         }

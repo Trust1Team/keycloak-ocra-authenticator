@@ -9,13 +9,14 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.t1t.keycloak.authenticator.KeycloakSmsAuthenticatorUtil.validateTelephoneNumber;
+import static com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorUtil.validateTelephoneNumber;
 
 /**
- * Created by nickpack on 15/08/2017.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
-public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProvider {
-    private static Logger logger = Logger.getLogger(KeycloakSmsMobilenumberRequiredAction.class);
+public class KeycloakOcraMobileNumberRequiredAction implements RequiredActionProvider {
+    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredAction.class);
     public static final String PROVIDER_ID = "sms_auth_check_mobile";
 
     public void evaluateTriggers(RequiredActionContext context) {
@@ -40,7 +41,7 @@ public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProv
             context.ignore();
         } else {
             // Mobile number is not configured or is invalid
-            Response challenge = context.form().createForm("sms-validation-mobile-number.ftl");
+            Response challenge = context.form().createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         }
     }
@@ -63,13 +64,13 @@ public class KeycloakSmsMobilenumberRequiredAction implements RequiredActionProv
             logger.debug("Supplied mobile number values do not match...");
             Response challenge = context.form()
                     .setError("Entered mobile numbers do not match.")
-                    .createForm("sms-validation-mobile-number.ftl");
+                    .createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         } else {
             logger.debug("Either one of two fields wasnt complete, or the first contains an invalid number...");
             Response challenge = context.form()
-                    .setError("Please enter a valid UK telephone number.")
-                    .createForm("sms-validation-mobile-number.ftl");
+                    .setError("Please enter a valid telephone number.")
+                    .createForm("ocra-validation-mobile-number.ftl");
             context.challenge(challenge);
         }
     }

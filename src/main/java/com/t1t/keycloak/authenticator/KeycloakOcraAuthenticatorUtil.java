@@ -1,6 +1,7 @@
 package com.t1t.keycloak.authenticator;
 
 
+import com.t1t.keycloak.client.sms.model.SmsService;
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
@@ -8,11 +9,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by joris on 18/11/2016.
+ * @Author Michallis Pashidis
+ * @Since 2017
  */
-public class KeycloakSmsAuthenticatorUtil {
+public class KeycloakOcraAuthenticatorUtil {
 
-    private static Logger logger = Logger.getLogger(KeycloakSmsAuthenticatorUtil.class);
+    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorUtil.class);
 
     public static String getAttributeValue(UserModel user, String attributeName) {
         String result = null;
@@ -62,10 +64,9 @@ public class KeycloakSmsAuthenticatorUtil {
     }
 
     public static String createMessage(String code, String mobileNumber, AuthenticatorConfigModel config) {
-        String text = KeycloakSmsAuthenticatorUtil.getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_TEXT);
+        String text = KeycloakOcraAuthenticatorUtil.getConfigString(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         text = text.replaceAll("%sms-code%", code);
         text = text.replaceAll("%phonenumber%", mobileNumber);
-
         return text;
     }
 
@@ -77,19 +78,15 @@ public class KeycloakSmsAuthenticatorUtil {
         return mobileNumber;
     }
 
-    static boolean sendSmsCode(String mobileNumber, String code, AuthenticatorConfigModel config) {
+    static boolean sendSmsCode(SmsService smsService, String mobileNumber, String code, AuthenticatorConfigModel config) {
         // Send an SMS
-        KeycloakSmsAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
-
-        String smsUsr = getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTTOKEN);
-        String smsPwd = getConfigString(config, KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CLIENTSECRET);
-
+        KeycloakOcraAuthenticatorUtil.logger.debug("Sending " + code + "  to mobileNumber " + mobileNumber);
         String smsText = createMessage(code, mobileNumber, config);
         try {
-            //TODO: send message using T1G
+            smsService.sendSms(mobileNumber,smsText);
             return true;
        } catch(Exception e) {
-            //Just like pokemon
+            //is catched in calling method
             return false;
         }
     }
@@ -99,6 +96,7 @@ public class KeycloakSmsAuthenticatorUtil {
             throw new RuntimeException("Number of digits must be bigger than 0");
         }
 
+        //TODO ocra
         double maxValue = Math.pow(10.0, nrOfDigits); // 10 ^ nrOfDigits;
         Random r = new Random();
         long code = (long) (r.nextFloat() * maxValue);
@@ -106,6 +104,7 @@ public class KeycloakSmsAuthenticatorUtil {
     }
 
     public static boolean validateTelephoneNumber(String telephoneNumber) {
-        return telephoneNumber.matches("^(?:(?:\\(?(?:0(?:0|11)\\)?[\\s-]?\\(?|\\+)44\\)?[\\s-]?(?:\\(?0\\)?[\\s-]?)?)|(?:\\(?0))(?:(?:\\d{5}\\)?[\\s-]?\\d{4,5})|(?:\\d{4}\\)?[\\s-]?(?:\\d{5}|\\d{3}[\\s-]?\\d{3}))|(?:\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{3,4})|(?:\\d{2}\\)?[\\s-]?\\d{4}[\\s-]?\\d{4}))(?:[\\s-]?(?:x|ext\\.?|\\#)\\d{3,4})?$");
+        return true;
+        //return telephoneNumber.matches("^(?:(?:\\(?(?:0(?:0|11)\\)?[\\s-]?\\(?|\\+)44\\)?[\\s-]?(?:\\(?0\\)?[\\s-]?)?)|(?:\\(?0))(?:(?:\\d{5}\\)?[\\s-]?\\d{4,5})|(?:\\d{4}\\)?[\\s-]?(?:\\d{5}|\\d{3}[\\s-]?\\d{3}))|(?:\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{3,4})|(?:\\d{2}\\)?[\\s-]?\\d{4}[\\s-]?\\d{4}))(?:[\\s-]?(?:x|ext\\.?|\\#)\\d{3,4})?$");
     }
 }

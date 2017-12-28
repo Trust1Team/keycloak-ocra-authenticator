@@ -62,7 +62,7 @@ public class KeycloakOcraAuthenticator implements Authenticator {
         if (mobileNumber != null) {
             //generate qc (challenge) and sessionId
             String qc = randomStringGenerator.nextString();
-            String sessionID = context.getAuthenticationSession().getId();
+            String sessionID = UUID.randomUUID().toString();
 
             long ttl = KeycloakOcraAuthenticatorUtil.getConfigLong(config, KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TTL, 10 * 60L); // 10 minutes in s
 

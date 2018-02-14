@@ -24,7 +24,7 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
 
     public static final String PROVIDER_ID = "ocra-authentication";
 
-    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorFactory.class);
+    private static Logger logger = Logger.getLogger(AuthenticatorFactory.class);
     private static KeycloakOcraAuthenticator SINGLETON;
 
 

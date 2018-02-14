@@ -16,7 +16,7 @@ import static com.t1t.keycloak.authenticator.KeycloakOcraAuthenticatorUtil.valid
  * @Since 2017
  */
 public class KeycloakOcraMobileNumberRequiredAction implements RequiredActionProvider {
-    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredAction.class);
+    private static Logger logger = Logger.getLogger(RequiredActionProvider.class);
     public static final String PROVIDER_ID = "sms_auth_check_mobile";
 
     public void evaluateTriggers(RequiredActionContext context) {

@@ -15,6 +15,7 @@ To install the OCRA Authenticator one has to:
          algorithm: "<ocra_algo>",
        }
      }`
+The config will be applicable to all realms using OCRA execution in a flow.
 
 * Add the jar to the Keycloak server:
   * `$ cp target/keycloak-ocra-authenticator-*.jar _KEYCLOAK_HOME_/providers/`
@@ -45,9 +46,9 @@ Under Authentication > Required Actions:
 * Make sure that for the 'Mobile Number' both the 'Enabled' and 'Default Action' check boxes are checked.
 
 # Additional tips
-Run a docker jboss/keycloak:
+Run a docker jboss/keycloak (-p hostport:containerport):
 
-`docker run --name keycloak -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=test -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak`
+`docker run --name keycloak -p 9000:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=test -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak:3.4.3.Final`
 
 The jboss/keycloak is a centos:7, if you want to login as root using docker (use user ID=0) and attach your terminal (in order to deploy the ear)
 

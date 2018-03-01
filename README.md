@@ -48,7 +48,7 @@ Under Authentication > Required Actions:
 # Additional tips
 Run a docker jboss/keycloak (-p hostport:containerport):
 
-`docker run --name keycloak -p 9000:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=test -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak:3.4.3.Final`
+`docker run --name keycloak -p 9000:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak:3.4.3.Final`
 
 The jboss/keycloak is a centos:7, if you want to login as root using docker (use user ID=0) and attach your terminal (in order to deploy the ear)
 

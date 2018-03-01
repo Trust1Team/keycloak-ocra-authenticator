@@ -12,7 +12,7 @@ import org.keycloak.models.KeycloakSessionFactory;
  * @Since 2017
  */
 public class KeycloakOcraMobileNumberRequiredActionFactory implements RequiredActionFactory {
-    private static Logger logger = Logger.getLogger(KeycloakOcraMobileNumberRequiredActionFactory.class);
+    private static Logger logger = Logger.getLogger(RequiredActionFactory.class);
     private static final KeycloakOcraMobileNumberRequiredAction SINGLETON = new KeycloakOcraMobileNumberRequiredAction();
 
     public RequiredActionProvider create(KeycloakSession session) {

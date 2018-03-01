@@ -24,7 +24,7 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
 
     public static final String PROVIDER_ID = "ocra-authentication";
 
-    private static Logger logger = Logger.getLogger(KeycloakOcraAuthenticatorFactory.class);
+    private static Logger logger = Logger.getLogger(AuthenticatorFactory.class);
     private static KeycloakOcraAuthenticator SINGLETON;
 
 
@@ -38,56 +38,12 @@ public class KeycloakOcraAuthenticatorFactory implements AuthenticatorFactory, C
     static {
         ProviderConfigProperty property;
 
-        // API URLs
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_URL_OCRA_API);
-        property.setLabel("OCRA API URL");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("The full URL and context path for the OCRA API.");
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_URL_SMS_API);
-        property.setLabel("SMS API URL");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("The full URL and context path for the SMS API.");
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_API_KEY);
-        property.setLabel("Api-key");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("The T1G api-key after contracting the SMS API and the OCRA API.");
-        configProperties.add(property);
-
         // SMS Text
         property = new ProviderConfigProperty();
         property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TEXT);
         property.setLabel("Template of text to send to the user");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("Use %sms-code% as placeholder for the generated OCRA code. Use %user% and %password% as placeholder when 'In message' authentication is used.");
-        configProperties.add(property);
-
-        // OCRA Config
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_ALGO);
-        property.setLabel("OCRA Algorithm");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("OCRA Algorithm following RFC6287: for example: 'OCRA-1:HOTP-SHA256-8:QN08'");
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_SEED);
-        property.setLabel("OCRA Seed");
-        property.setHelpText("OCRA Seed, shared secret between OCRA API and Keycloak");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName(KeycloakOcraAuthenticatorConstants.CONF_PRP_OCRA_TTL);
-        property.setLabel("OCRA TTL");
-        property.setHelpText("OCRA time-to-live in seconds");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
         configProperties.add(property);
 
         try {

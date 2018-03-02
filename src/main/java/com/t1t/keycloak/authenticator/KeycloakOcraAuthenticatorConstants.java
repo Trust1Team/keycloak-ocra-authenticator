@@ -28,6 +28,8 @@ public class KeycloakOcraAuthenticatorConstants {
     //TODO
     // User credentials (used to persist the sent sms code + expiration time cluster wide)
     public static final String USR_CRED_MDL_OCRA_SESSION_ID = "ocra-auth.session.id";
+    public static final String USR_CRED_MDL_OCRA_CHALLENGE_ID = "ocra-auth.challenge.id";
+    public static final String USR_CRED_MDL_OCRA_QS = "ocra-auth.qs";
     public static final String USR_CRED_MDL_OCRA_CODE = "ocra-auth.code";
     public static final String USR_CRED_MDL_OCRA_EXP_TIME = "ocra-auth.exp-time";
 }

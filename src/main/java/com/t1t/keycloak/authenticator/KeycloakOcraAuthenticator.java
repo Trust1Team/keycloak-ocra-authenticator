@@ -1,8 +1,11 @@
 package com.t1t.keycloak.authenticator;
 
 import com.t1t.keycloak.client.ocra.OcraService;
+import com.t1t.keycloak.client.ocra.model.ChallengeResponse;
+import com.t1t.keycloak.client.ocra.model.ValidationResponse;
 import com.t1t.keycloak.client.ocra.utils.RandomString;
 import com.t1t.keycloak.client.sms.model.SmsService;
+import okhttp3.Challenge;
 import org.jboss.logging.Logger;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -36,7 +39,7 @@ public class KeycloakOcraAuthenticator implements Authenticator {
     public KeycloakOcraAuthenticator(OcraService ocraService, SmsService smsService) {
         this.ocraService = ocraService;
         this.smsService = smsService;
-        randomStringGenerator = new RandomString(16, new SecureRandom(),RandomString.alphanum);
+        randomStringGenerator = new RandomString(16, new SecureRandom(), RandomString.alphanum);
     }
 
     private enum CODE_STATUS {
@@ -68,16 +71,17 @@ public class KeycloakOcraAuthenticator implements Authenticator {
 
             logger.debug("Using ttl " + ttl + " (s)");
 
-            String code = null;
+            ChallengeResponse challengeResp = null;
             try {
-                code = ocraService.getCode(sessionID, qc).getRs();
-                logger.debug("Debug code: "+code);
+                challengeResp = ocraService.getCode(sessionID, qc);
+                String code = challengeResp.getRs();
+                logger.debug("Debug code: " + code);
             } catch (Exception e) {
-                logger.error("Error generating OCRA code using OCRA API: "+e.getMessage());
+                logger.error("Error generating OCRA code using OCRA API: " + e.getMessage());
             }
 
-            storeCode(context, code, new Date().getTime() + (ttl * 1000), sessionID); // s --> ms
-            if (KeycloakOcraAuthenticatorUtil.sendSmsCode(smsService, mobileNumber, code, context.getAuthenticatorConfig())) {
+            storeCode(context, challengeResp.getRs(), sessionID, challengeResp.getId().toString(), challengeResp.getQs()); // s --> ms:: new Date().getTime() + (ttl * 1000)
+            if (KeycloakOcraAuthenticatorUtil.sendSmsCode(smsService, mobileNumber, challengeResp.getRs(), context.getAuthenticatorConfig())) {
                 Response challenge = context.form().createForm("ocra-validation.ftl");
                 context.challenge(challenge);
             } else {
@@ -135,20 +139,22 @@ public class KeycloakOcraAuthenticator implements Authenticator {
      * Store the code + expiration time + sessionId in a UserCredential. Keycloak will persist these in the DB.
      * When the code is validated on another node (in a clustered environment) the other nodes have access to it's values too.
      */
-    private void storeCode(AuthenticationFlowContext context, String code, Long expiringAt, String sessionId) {
+    private void storeCode(AuthenticationFlowContext context, String code, String sessionId, String challengeId, String qs) {
         UserCredentialModel credentials = new UserCredentialModel();
+
         credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
         credentials.setValue(code);
 
-        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
-
-/*        credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_EXP_TIME);
-        credentials.setValue((expiringAt).toString());
-        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
-
         credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_SESSION_ID);
         credentials.setValue(sessionId);
-        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);*/
+
+        credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CHALLENGE_ID);
+        credentials.setValue(challengeId);
+
+        credentials.setType(KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_QS);
+        credentials.setValue(qs);
+
+        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
     }
 
 
@@ -160,30 +166,31 @@ public class KeycloakOcraAuthenticator implements Authenticator {
         String enteredCode = formData.getFirst(KeycloakOcraAuthenticatorConstants.ANSW_OCRA_CODE);
         KeycloakSession session = context.getSession();
 
+        // TODO look in which cach this can be stored!!! from KC 3.2.x not working
         List codeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CODE);
-        //List timeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_EXP_TIME);
-        //List sessionCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_SESSION_ID);
+        List sessionIds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_SESSION_ID);
+        List challengeIds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_CHALLENGE_ID);
+        List qss = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), KeycloakOcraAuthenticatorConstants.USR_CRED_MDL_OCRA_QS);
 
         CredentialModel expectedCode = (CredentialModel) codeCreds.get(0);
-        //CredentialModel expTimeString = (CredentialModel) timeCreds.get(0);
-        //CredentialModel expSessionId = (CredentialModel) sessionCreds.get(0);
+        CredentialModel sessionId = (CredentialModel) sessionIds.get(0);
+        CredentialModel challengeId = (CredentialModel) challengeIds.get(0);
+        CredentialModel qs = (CredentialModel) qss.get(0);
+        ChallengeResponse crs = new ChallengeResponse();
+        crs.setId(Long.valueOf(challengeId.getValue()));
+        crs.setQs(qs.getValue());
+
 
         logger.debug("Expected code = " + expectedCode.getValue());
-
-        if (expectedCode != null) {
-            result = enteredCode.equals(expectedCode.getValue()) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
-
-            //TODO validation
-            long now = new Date().getTime();
-
-/*            logger.debug("Valid code expires in " + (Long.parseLong(expTimeString.getValue()) - now) + " ms");
-            if (result == CODE_STATUS.VALID) {
-                if (Long.parseLong(expTimeString.getValue()) < now) {
-                    logger.debug("Code is expired !!");
-                    result = CODE_STATUS.EXPIRED;
-                }
-            }*/
+        try {
+            ValidationResponse valRes = ocraService.validate(sessionId.getValue(), enteredCode, crs);
+            if(valRes.getValidationResult().booleanValue()) result = enteredCode.equals(expectedCode.getValue()) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
+            else result = CODE_STATUS.INVALID;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return  CODE_STATUS.INVALID;
         }
+
         logger.debug("result : " + result);
         return result;
     }
